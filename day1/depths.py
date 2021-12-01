@@ -33,23 +33,19 @@ def get_increasing_window_depths(datafile):
 	# total of measurements > than previous measurement
 	total = 0
 	# get first window
-	window = [depths[0], depths[1], depths[2]]
-	previous_sum = sum(window)
+	current_sum = sum([depths[0], depths[1], depths[2]])
+	previous_sum = current_sum
 
 	for i in range(3, len(depths)):
 		# shift
-		window[0] = window[1]
-		window[1] = window[2]
-		window[2] = depths[i]
+		current_sum -= depths[i-3]
+		current_sum += depths[i]
 
-		if(sum(window) > previous_sum):
+		if(current_sum > previous_sum):
 			total += 1
 
-		previous_sum = sum(window)
+		previous_sum = current_sum
 
 	return total
 
 print(get_increasing_window_depths("depths.txt"))
-
-
-
