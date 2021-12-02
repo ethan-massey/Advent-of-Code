@@ -24,3 +24,20 @@ print(get_end_position_times_two(commands))
 
 
 # Part 2
+def get_end_position_with_aim(commands) -> int:
+	h_pos = 0
+	depth = 0
+	aim = 0
+
+	for com in commands:
+		if com[0] == 'forward':
+			h_pos += com[1]
+			depth += aim * com[1]
+		elif com[0] == 'down':
+			aim += com[1]
+		elif com[0] == 'up':
+			aim -= com[1]
+
+	return h_pos * depth
+
+print(get_end_position_with_aim(commands))
