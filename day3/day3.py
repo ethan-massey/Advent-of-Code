@@ -5,7 +5,7 @@ def get_gamma_rate(one_bit_count: dict, num_count: int) -> str:
 		gamma_rate += ('0', '1')[i >= (num_count // 2)]
 	return gamma_rate
 
-# opp of gamma rate
+
 def get_epsilon_rate(gamma_rate: str) -> str:
 	ep_rate = ''
 	for i in range(0, len(gamma_rate)):
@@ -53,7 +53,7 @@ def get_consumption_rate(datafile: str) -> int:
 
 def main():
     print(get_consumption_rate("data.txt"))
-    
+
 
 if __name__ == "__main__":
     main()
