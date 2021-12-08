@@ -34,6 +34,3 @@ class Board {
         return ret;
     }
 }
-
-
-

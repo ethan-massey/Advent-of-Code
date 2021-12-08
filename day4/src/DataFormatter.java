@@ -43,11 +43,11 @@ class DataFormatter{
         for(int i = 0; i < stringNums.length; i++){ allBoardNums[i] = Integer.parseInt(stringNums[i]); }
 
         // make boards
-        int numBoards = allBoardNums.length / 5;
-        boards = new Board[numBoards];
+        int numBoards = allBoardNums.length / 25;
+        this.boards = new Board[numBoards];
 
-        for(int i = 0; i < numBoards; i+=25){
-            boards[i] = new Board(Arrays.copyOfRange(allBoardNums, i, i + 25));
+        for(int i = 0; i < numBoards; i++){
+            this.boards[i] = new Board(Arrays.copyOfRange(allBoardNums, i * 25, (i*25) + 25));
         }
 
     }
@@ -60,4 +60,19 @@ class DataFormatter{
         return callerList;
     }
 
+    @Override
+    public String toString() {
+        String ret = "";
+
+        for(int i : callerList){
+            ret += i + ", ";
+        }
+        ret += "\n\n";
+
+        for(Board b : boards){
+            ret += b.toString() + "\n";
+        }
+
+        return ret;
+    }
 }
