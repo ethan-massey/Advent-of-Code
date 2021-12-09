@@ -13,7 +13,7 @@ def partOne(days, lanternfish):
 		new_list = []
 		print('Day', i, 'computed')
 
-	print('Answer:', len(lanternfish), 'lanternfish')
+	print('\nAnswer:', len(lanternfish), 'lanternfish')
 
 def partTwo(days, lanternfish):
 	d = {}
@@ -41,7 +41,7 @@ def partTwo(days, lanternfish):
 		d[6] += temp
 		print('Day', day, 'computed')
 
-	print('Answer:', sum(d.values()), 'lanternfish')
+	print('\nAnswer:', sum(d.values()), 'lanternfish')
 
 def main():
 	lines = open("data.txt", "r").readlines()
@@ -53,11 +53,12 @@ def main():
 	prompt = 'Menu options:\n- 1:       PART 1 (O^2)\n- 2:       PART 2 (optimized)\n- <space>: EXIT\n\nEnter your choice: '
 
 	choice = input(prompt)
-	days = int(input('Enter days of reproduction to simulate: '))
 
 	if(choice == '1'):
+		days = int(input('Enter days of reproduction to simulate: '))
 		partOne(days, lanternfish)
 	elif(choice == '2'):
+		days = int(input('Enter days of reproduction to simulate: '))
 		partTwo(days, lanternfish)
 	else:
 		quit()
