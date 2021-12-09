@@ -5,7 +5,6 @@ class Board {
     private Number[][] numbers;
     private boolean isWinningBoard;
 
-    // takes array of 25 nums and puts them in board
     public Board(int[] nums){
         isWinningBoard = false;
         numbers = makeBoard(nums);
@@ -19,7 +18,6 @@ class Board {
                 retNums[r][c] = new Number(nums[(r * 5) + c]);
             }
         }
-
         return retNums;
     }
 
@@ -76,7 +74,7 @@ class Board {
         return ret;
     }
 
-    public int getSumUnmarked(){
+    private int getSumUnmarked(){
         int sum = 0;
         ArrayList<Integer> um = this.getUnmarked();
 
@@ -85,6 +83,41 @@ class Board {
         }
 
         return sum;
+    }
+
+    public static int getLastWinnerProduct(Board[] boards, int[] callList){
+        ArrayList<Integer> winIndexes = new ArrayList<Integer>();
+        ArrayList<Board> winners = new ArrayList<Board>();
+        ArrayList<Integer> winCallNumbers = new ArrayList<Integer>();
+
+        for(int i : callList){
+            for(int bInd = 0; bInd < boards.length; bInd++){
+                if(!winIndexes.contains(bInd)){
+                    if(boards[bInd].markAndCheck(i)){
+                        winIndexes.add(bInd);
+                        winners.add(boards[bInd]);
+                        winCallNumbers.add(i);
+                    }
+                }
+            }
+        }
+        if(winners.size() == 0){
+            System.out.println("No winning board found.");
+            return 0;
+        }
+        return winners.get(winners.size()-1).getSumUnmarked() * winCallNumbers.get(winCallNumbers.size()-1);
+    }
+
+    public static int getPartOneProduct(Board[] boards, int[] callList){
+        for(int i : callList){
+            for(Board b : boards){
+                if(b.markAndCheck(i)){
+                    return i * b.getSumUnmarked();
+                }
+            }
+        }
+        System.out.println("No winning board found.");
+        return 0;
     }
 
     @Override
