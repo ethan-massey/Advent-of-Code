@@ -11,7 +11,7 @@ def partOne(days, lanternfish):
 
 		lanternfish = new_list
 		new_list = []
-		print('Day', i, 'computed')
+		print('Day', i+1, 'computed')
 
 	print('\nAnswer:', len(lanternfish), 'lanternfish')
 
@@ -39,7 +39,7 @@ def partTwo(days, lanternfish):
 		d[8] = temp
 		# 0 to 6
 		d[6] += temp
-		print('Day', day, 'computed')
+		print('Day', day+1, 'computed')
 
 	print('\nAnswer:', sum(d.values()), 'lanternfish')
 
