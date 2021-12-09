@@ -38,7 +38,20 @@ def get_straight_line(x1, y1, x2, y2):
 	return ret
 
 
-# print(get_line(0,2,6,2))
+# return num of positions where at least 2 lines overlap
+def get_num_coords_over_one():
+	total = 0
+	for r in range(0, max_x):
+		for c in range(0, max_y):
+			if graph[r][c] != '.':
+				if graph[r][c] >= 2:
+					total += 1
+
+	return total
+
+
+
+
 
 
 
