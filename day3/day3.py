@@ -1,5 +1,6 @@
 from collections import Counter
 
+# PART 1 functions
 def get_gamma_rate(one_bit_count: dict, num_count: int) -> str:
 	gamma_rate = ''
 	for i in one_bit_count.values():
@@ -46,6 +47,7 @@ def get_consumption_rate(datafile: str) -> int:
 	epsilon = bin_to_dec(epsilon)
 	return gamma * epsilon
 
+
 def get_binary_nums(datafile: str) -> list:
 	# format data
 	bin_nums = open(datafile, "r").readlines()
@@ -53,57 +55,60 @@ def get_binary_nums(datafile: str) -> list:
 	for i in range(0, num_count):
 		bin_nums[i] = bin_nums[i].strip('\n')
 	return bin_nums
+	
 
-def get_O2_rating(datafile: str) -> int:
+# PART 2 functions
+def get_gas_rating(datafile: str, gas_type: str) -> str:
 	bin_nums = get_binary_nums(datafile)
-
-	# ind = 0
-	# while len(bin_nums) > 1:
-	# 	bin_nums.sort(key = lambda x: x[ind])
-
-	# 	if bin_nums[(len(bin_nums)//2)] == '1':
-	# 		bin_nums = [ elem for elem in bin_nums if elem[ind] == '1']
-	# 	else:
-	# 		bin_nums = [ elem for elem in bin_nums if elem[ind] == '0']
-
-	# 	print(bin_nums[(len(bin_nums)//2)], ind)
-	# 	ind += 1
-	# 	# bottom
-	# return bin_nums[0]
-
-	ind = 0
-	while len(bin_nums) > 1:
-		ind_nums = [ elem[ind] for elem in bin_nums ]
-		most_common = Counter(ind_nums).most_common()[0][0]
-
-		first_one_index = ind_nums.index('1')
-
-		bin_nums = (bin_nums[first_one_index:], bin_nums[:first_one_index])[most_common == '0']
-
-		for i, val in enumerate(bin_nums):
-			print(i, val)
-
-		ind += 1
-
-	return bin_nums[0]
+	
+	decreasing_list = bin_nums
+	index = 0
+	while(len(decreasing_list) > 1):
+		decreasing_list = list_eval(decreasing_list, index, gas_type)
+		index += 1
+	O2_binary = decreasing_list[0]
+	return bin_to_dec(O2_binary)
 
 
+def list_eval(bin_list: list, i: int, gas_type: str) -> list:
+	ret = []
+	digit_count = {
+		0 : 0,
+		1 : 0
+	}
+
+	for num in bin_list:
+		if num[i] == '1':
+			digit_count[1] += 1
+		else:
+			digit_count[0] += 1
+
+	if gas_type == 'O2':
+		keep = ('1', '0')[digit_count[0] > digit_count[1]]
+	elif gas_type == 'CO2':
+		keep = ('0', '1')[digit_count[0] > digit_count[1]]
+
+	for num in bin_list:
+		if num[i] == keep:
+			ret.append(num)
+
+	return ret
 
 
-
-
-
-def get_life_support_rate(datafile: str) -> int:
-	O2_rating = get_O2_rating(datafile)
-	CO2_scrubber_rating = get_CO2_scrubber_rating()
-	return O2_rating * CO2_scrubber_rating
-
+def get_life_support(datafile: str) -> int:
+	return get_gas_rating("data.txt", 'O2') * get_gas_rating("data.txt", 'CO2')
 
 
 def main():
-    # print(get_consumption_rate("data.txt"))
-    # print(get_life_support_rate("data.txt"))
-    print(get_O2_rating("data.txt"))
+	prompt = 'Menu options:\n- 1:       PART 1\n- 2:       PART 2\n- <space>: EXIT\n\nEnter your choice: '
+	choice = input(prompt)
+
+	if(choice == '1'):
+		print(get_consumption_rate("data.txt"))
+	elif(choice == '2'):
+		print(get_life_support("data.txt"))
+	else:
+		quit()
 
 
 if __name__ == "__main__":
