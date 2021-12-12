@@ -19,6 +19,17 @@ public class HeightMap {
         return total;
     }
 
+    // recursively get basin size from a low point
+//    public int getBasinSize(int r, int c){
+//        if(heights[r][c] == 9){
+//            return 0;
+//        }
+//        if(heights[r][c].isMarked()){
+//            return 0;
+//        }
+//        return 1 + getBasinSize(r+1, c) + getBasinSize(r-1, c) + getBasinSize(r, c+1) + getBasinSize(r, c-1);
+//    }
+
     private void findLowPoints(){
         ArrayList<Integer[]> lp = new ArrayList<Integer[]>();
         Integer[] coord;
@@ -36,8 +47,7 @@ public class HeightMap {
         lowPoints = lp;
     }
 
-    private boolean isLowPoint(int r, int c){
-        int curVal = heights[r][c];
+    private ArrayList<Integer[]> getValidNeighbors(int r, int c){
         Integer[] above = {r-1, c};
         Integer[] left = {r, c-1};
         Integer[] right = {r, c+1};
@@ -59,6 +69,14 @@ public class HeightMap {
             valid.add(below);
         }
 
+        return valid;
+    }
+
+    private boolean isLowPoint(int r, int c){
+        int curVal = heights[r][c];
+        // get valid comparable coords
+        ArrayList<Integer[]> valid = getValidNeighbors(r, c);
+
         for(Integer[] coord : valid){
             if(curVal >= heights[coord[0]][coord[1]]){
                 return false;
@@ -72,7 +90,7 @@ public class HeightMap {
         // get data
         ArrayList<String> lines = new ArrayList<String>();
         try{
-            Scanner scanner = new Scanner(new File("data.txt"));
+            Scanner scanner = new Scanner(new File("test.txt"));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 lines.add(line);
