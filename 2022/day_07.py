@@ -8,6 +8,9 @@ class File:
         self.name = name
         self.size = size
 
+    def __lt__(self, other):
+        return self.name < other.name
+
 
 class Directory:
     def __init__(self, name, parent):
@@ -27,6 +30,9 @@ class Directory:
         else:
             self.absolute_path = '/'
         self.size = 0
+
+    def __lt__(self, other):
+        return self.name < other.name
 
     # add file to current dir and add file size to current dir and all parents
     def add_file(self, file: File):
@@ -111,15 +117,20 @@ def find_smallest_dir_to_free_space(root: Directory):
 SMALLEST_SIZE = float('inf')
 print(find_smallest_dir_to_free_space(root))
 
+
 def print_directory(dir: Directory):
     ret = {'value': ['\033[93m' + '/']}
 
     def add_lines(root: Directory, indent: str):
-        for file in root.files:
-            ret['value'].append('\033[95m' + indent + file.name + ' ' + str(file.size))
-        for d in root.directories:
-            ret['value'].append('\033[93m' + indent + d.absolute_path)
-            add_lines(d, indent + '\t')
+        contents = root.files + root.directories
+        contents.sort()
+
+        for thing in contents:
+            if thing.__class__.__name__ == 'File':
+                ret['value'].append('\033[95m' + indent + thing.name + ' ' + str(thing.size))
+            elif thing.__class__.__name__ == 'Directory':
+                ret['value'].append('\033[93m' + indent + thing.absolute_path)
+                add_lines(thing, indent + '\t')
 
     add_lines(dir, '\t')
     for line in ret['value']:
