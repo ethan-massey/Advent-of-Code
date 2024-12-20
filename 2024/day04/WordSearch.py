@@ -12,7 +12,6 @@ class WordSearch:
             ret.append(line_chars)
         return ret
 
-    # done
     def __get_num_horizontal_matches(self, word):
         num_matches = 0
         for r in range(self.height):
