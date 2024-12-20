@@ -1,5 +1,6 @@
 import re
 
+# part 1
 data = open("data.txt", "r").readlines()
 
 mul_expressions = []
@@ -17,15 +18,15 @@ for exp in mul_expressions:
 
 print(sum)
 
-
+# part 2
 process_pile = ""
 should_we_keep_these_chars = True
 for line in data:
     for i, c in enumerate(line):
-        if i >= 7:
+        if i >= 6:
             if line[i - 7 : i] == "don't()":
                 should_we_keep_these_chars = False
-        if i >= 4:
+        if i >= 3:
             if line[i - 4 : i] == "do()":
                 should_we_keep_these_chars = True
         if should_we_keep_these_chars:
