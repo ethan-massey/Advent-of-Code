@@ -17,9 +17,24 @@ class FloorGrid:
             for c in range(len(self.grid[0])):
                 if self.get_value(r, c) == '@' and self.has_fewer_than_four_surrounding_paper_rolls(r, c):
                     count.append({
-                        'location': f'{r},{c}'
+                        'row': r,
+                        'col': c
                     })
         return count
+
+    def remove_all_possible_rolls(self):
+        num_removed_rolls = 0
+        available_rolls = self.get_accessible_rolls()
+
+        while len(available_rolls) > 0:
+            for roll in available_rolls:
+                self.grid[roll['row']][roll['col']] = '.'
+                num_removed_rolls += 1
+                print(f'removed a roll at {roll["row"]},{roll["col"]}')
+
+            available_rolls = self.get_accessible_rolls()
+
+        return num_removed_rolls
 
     def pick_up_roll(self, row, col):
         self.grid[row][col] = '.'
@@ -44,3 +59,4 @@ class FloorGrid:
 
 floor_grid = FloorGrid()
 print(len(floor_grid.get_accessible_rolls()))
+print(floor_grid.remove_all_possible_rolls())
